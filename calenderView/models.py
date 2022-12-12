@@ -7,8 +7,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from schedule.settings import USE_FULLCALENDAR
-from schedule.utils import EventListManager
+from django_project.settings import USE_FULLCALENDAR
+from calenderView.utils import EventListManager
 
 
 class CalendarManager(models.Manager):
@@ -172,55 +172,3 @@ class Calendar(models.Model):
         return reverse("calendar_home", kwargs={"calendar_slug": self.slug})
 
 
-class CalendarRelationManager(models.Manager):
-    def create_relation(
-        self, calendar, content_object, distinction="", inheritable=True
-    ):
-        """
-        Creates a relation between calendar and content_object.
-        See CalendarRelation for help on distinction and inheritable
-        """
-        return CalendarRelation.objects.create(
-            calendar=calendar, distinction=distinction, content_object=content_object
-        )
-
-
-class CalendarRelation(models.Model):
-    """
-    This is for relating data to a Calendar, and possible all of the events for
-    that calendar, there is also a distinction, so that the same type or kind of
-    data can be related in different ways.  A good example would be, if you have
-    calendars that are only visible by certain users, you could create a
-    relation between calendars and users, with the distinction of 'visibility',
-    or 'ownership'.  If inheritable is set to true, all the events for this
-    calendar will inherit this relation.
-    calendar: a foreign key relation to a Calendar object.
-    content_type: a foreign key relation to ContentType of the generic object
-    object_id: the id of the generic object
-    content_object: the generic foreign key to the generic object
-    distinction: a string representing a distinction of the relation, User could
-    have a 'veiwer' relation and an 'owner' relation for example.
-    inheritable: a boolean that decides if events of the calendar should also
-    inherit this relation
-    DISCLAIMER: while this model is a nice out of the box feature to have, it
-    may not scale well.  If you use this, keep that in mind.
-    """
-
-    calendar = models.ForeignKey(
-        Calendar, on_delete=models.CASCADE, verbose_name=_("calendar")
-    )
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.IntegerField(db_index=True)
-    content_object = fields.GenericForeignKey("content_type", "object_id")
-    distinction = models.CharField(_("distinction"), max_length=20)
-    inheritable = models.BooleanField(_("inheritable"), default=True)
-
-    objects = CalendarRelationManager()
-
-    class Meta:
-        verbose_name = _("calendar relation")
-        verbose_name_plural = _("calendar relations")
-        index_together = [("content_type", "object_id")]
-
-    def __str__(self):
-        return "{} - {}".format(self.calendar, self.content_object)

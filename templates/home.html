@@ -2,11 +2,9 @@
 
 {% block title %}Home{% endblock title %}
 
-
 {% block content %}
 {% if user.is_authenticated %}
 Hi {{ user.username }}! You are {{user.age }} years old.
-For monthly calender click link - <a href="{% url 'fullcalendar' %}">monthly view</a>
 <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
 <p>You are not logged in</p>

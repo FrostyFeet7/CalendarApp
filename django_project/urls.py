@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls.conf import path, include
 from django.views.generic.base import TemplateView
 
 
@@ -22,7 +22,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
-    #path("calenderView/", include("calenderView.urls")),
+    path("calenderView/", include("calenderView.urls")),
     path("", include("pages.urls")),
-    path('fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"), name='fullcalendar'),
 ]

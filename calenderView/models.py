@@ -146,13 +146,6 @@ class Calendar(models.Model):
     def events(self):
         return self.event_set
 
-    def create_relation(self, obj, distinction="", inheritable=True):
-        '''
-        Creates a CalendarRelation between self and obj.
-        if Inheritable is set to true this relation will cascade to all events
-        related to this calendar.
-        '''
-        CalendarRelation.objects.create_relation(self, obj, distinction, inheritable)
 
     def get_recent(self, amount=5):
         '''

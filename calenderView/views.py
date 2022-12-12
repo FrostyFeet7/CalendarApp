@@ -14,7 +14,6 @@ from django.http import (
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.http import is_safe_url
 from django.views.decorators.http import require_POST
 from django.views.generic.base import TemplateResponseMixin
 from django.views.generic.detail import DetailView
@@ -27,9 +26,8 @@ from django.views.generic.edit import (
 )
 
 from calenderView.forms import EventForm, OccurrenceForm
-from calenderView.models import Calendar, Event, Occurrence
-from calenderView.periods import weekday_names
-from calenderView.settings import (
+from models import Calendar, Event, Occurrence
+from django_project.settings import (
     CHECK_EVENT_PERM_FUNC,
     CHECK_OCCURRENCE_PERM_FUNC,
     EVENT_NAME_PLACEHOLDER,
@@ -122,7 +120,6 @@ class CalendarByPeriodsView(CalendarMixin, DetailView):
                 "date": date,
                 "period": period,
                 "calendar": calendar,
-                "weekday_names": weekday_names,
                 "here": quote(self.request.get_full_path()),
             }
         )

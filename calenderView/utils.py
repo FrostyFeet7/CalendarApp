@@ -30,7 +30,7 @@ class EventListManager:
         the most recent occurrence after the date ``after`` from any of the
         events in ``self.events``
         """
-        from schedule.models import Occurrence
+        from models import Occurrence
 
         if after is None:
             after = timezone.now()
@@ -119,7 +119,7 @@ def get_kwarg_or_param(request, kwargs, key):
 
 
 def get_occurrence(request, **kwargs):
-    from schedule.models import Occurrence
+    from models import Occurrence
 
     occurrence_id = get_kwarg_or_param(request, kwargs, "occurrence_id")
     return (
@@ -128,7 +128,7 @@ def get_occurrence(request, **kwargs):
 
 
 def get_event(occurrence, request, **kwargs):
-    from schedule.models import Event
+    from models import Event
 
     if occurrence:
         event = occurrence.event
@@ -139,7 +139,7 @@ def get_event(occurrence, request, **kwargs):
 
 
 def get_calendar(event, request, **kwargs):
-    from schedule.models import Calendar
+    from models import Calendar
 
     calendar = None
     if event:

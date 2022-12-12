@@ -24,4 +24,5 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("calenderView/", include("calenderView.urls")),
     path("", include("pages.urls")),
+    path('fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"), name='fullcalendar'),
 ]
